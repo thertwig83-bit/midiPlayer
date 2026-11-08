@@ -1,0 +1,52 @@
+@import "tailwindcss";
+
+@layer base {
+  html, body, #root {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    background-color: #f1f5f9;
+    color: #0f172a;
+  }
+}
+
+/* Sheet Music Paper Guarantee: Always white paper background for music notation */
+.score-page-container {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+}
+
+.score-page-container svg {
+  background-color: transparent !important;
+}
+
+/* Custom scrollbar for touch & tablet friendly experience */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.4);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(148, 163, 184, 0.7);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.97); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.15s ease-out forwards;
+}
