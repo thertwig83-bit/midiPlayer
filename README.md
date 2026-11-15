@@ -77,3 +77,18 @@ npm run preview
 2. Tippe oben rechts auf die drei Punkte (`⋮`).
 3. Wähle **„Zum Startbildschirm hinzufügen“** bzw. **„App installieren“**.
 4. Die App erscheint nun mit eigenem Icon auf deinem Startbildschirm und öffnet sich im Vollbildmodus ohne störende Browserleisten.
+
+---
+
+## 📄 Danksagung & Lizenzen (Credits & Third-Party Licenses)
+
+Dieses Projekt nutzt folgende Open-Source-Bibliotheken und Audio-Ressourcen:
+
+- **OpenSheetMusicDisplay (OSMD):** Notendarstellung via VexFlow ([MIT License](https://github.com/opensheetmusicdisplay/opensheetmusicdisplay))
+- **SoundFonts / Audio Samples:**
+  - *FluidR3 GM* (Violine, Bass) von Frank Wen ([MIT License](https://github.com/urish/cinto/blob/master/soundfonts/FluidR3%20GM.md))
+  - *GeneralUser GS* (Klavier, Orgel, Chor, Bläser, Flöte) von S. Christian Collins ([GeneralUser GS License](http://www.schristiancollins.com/generaluser.php))
+  - Konvertiert und bereitgestellt über das [WebAudioFont](https://github.com/surikov/webaudiofont)-Ökosystem.
+- **Icons:** [Lucide Icons](https://lucide.dev/) (ISC License)
+- **UI & Framework:** React & Vite (MIT License)
+
