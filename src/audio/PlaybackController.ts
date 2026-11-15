@@ -633,7 +633,7 @@ export class PlaybackController {
     }
   }
 
-  private moveOsmdCursorToStep(targetStepIndex: number): void {
+  private moveOsmdCursorToStep(targetStepIndex: number, scroll: boolean = true): void {
     if (!this.osmd) return;
     const cursor = this.osmd.cursor;
     cursor.show();
@@ -644,7 +644,24 @@ export class PlaybackController {
       cursor.next();
     }
 
-    this.scrollCursorIntoView();
+    if (scroll) this.scrollCursorIntoView();
+  }
+
+  /**
+   * Re-indexes the visual positions after the score was re-rendered (e.g. fingerings toggled),
+   * keeping tracks, mute/solo state, loop and the current playback position untouched.
+   */
+  public relayout(osmd: OpenSheetMusicDisplay, container: HTMLElement): void {
+    this.osmd = osmd;
+    this.container = container;
+    const idx = this.currentStepIndex;
+    const fresh = this.indexScoreSteps(osmd);
+    if (fresh.length === this.steps.length) {
+      this.steps = fresh.map((s, i) => ({ ...this.steps[i], visualBounds: s.visualBounds }));
+    } else {
+      this.steps = fresh;
+    }
+    this.moveOsmdCursorToStep(Math.min(idx, Math.max(0, this.steps.length - 1)), false);
   }
 
   public scrollCursorIntoView(): void {

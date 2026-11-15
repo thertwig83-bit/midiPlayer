@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { 
   Play, 
   Pause, 
@@ -134,7 +134,7 @@ export const PlaybackControls: React.FC<PlaybackControlsProps> = ({
   const currentTimeSec = currentStep ? currentStep.timeSeconds : 0;
 
   return (
-    <div className="bg-white border-t border-slate-300 shadow-2xl px-4 py-3 z-30 select-none">
+    <div className="print:hidden bg-white border-t border-slate-300 shadow-2xl px-4 py-3 z-30 select-none">
       {/* Progress Line */}
       <div className="relative w-full h-2 bg-slate-200 rounded-full mb-3 overflow-hidden cursor-pointer">
         <div 

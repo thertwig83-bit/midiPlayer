@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { TrackVoice, SoundType } from '../types/music';
 import { globalPlaybackController } from '../audio/PlaybackController';
 import { 
@@ -13,6 +13,11 @@ import {
 
 interface TrackListProps {
   tracks: TrackVoice[];
+  /** Track ids that are inside the violin range (fingering available) */
+  fingeringEligible?: string[];
+  /** Track ids with fingering currently shown */
+  fingeringTrackIds?: string[];
+  onToggleFingering?: (trackId: string) => void;
   isOpen?: boolean;
   onClose?: () => void;
 }
@@ -27,7 +32,12 @@ const SOUND_OPTIONS: { type: SoundType; label: string }[] = [
   { type: 'acoustic_bass', label: 'Bass' },
 ];
 
-export const TrackList: React.FC<TrackListProps> = ({ tracks }) => {
+export const TrackList: React.FC<TrackListProps> = ({
+  tracks,
+  fingeringEligible = [],
+  fingeringTrackIds = [],
+  onToggleFingering,
+}) => {
   const hasSolo = tracks.some(t => t.solo);
 
   const handleToggleMute = (track: TrackVoice) => {
@@ -202,6 +212,19 @@ export const TrackList: React.FC<TrackListProps> = ({ tracks }) => {
                     </select>
                   </div>
                 </div>
+
+                {/* Violin fingering toggle (only for voices inside the violin range) */}
+                {fingeringEligible.includes(track.id) && (
+                  <label className="flex items-center gap-2 mt-2.5 pt-2 text-xs border-t border-slate-100 cursor-pointer text-slate-700 font-medium">
+                    <input
+                      type="checkbox"
+                      checked={fingeringTrackIds.includes(track.id)}
+                      onChange={() => onToggleFingering?.(track.id)}
+                      className="w-4 h-4 accent-blue-600 cursor-pointer"
+                    />
+                    Fingersatz (Violine)
+                  </label>
+                )}
               </div>
             );
           })

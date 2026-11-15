@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { ScoreViewer } from './components/ScoreViewer';
 import { TrackList } from './components/TrackList';
 import { PlaybackControls } from './components/PlaybackControls';
@@ -24,6 +24,8 @@ export const App: React.FC = () => {
   const [currentMeasure, setCurrentMeasure] = useState<number>(1);
   const [progress, setProgress] = useState<number>(0);
   const [bpm, setBpm] = useState<number>(112);
+  const [fingeringEligible, setFingeringEligible] = useState<string[]>([]);
+  const [fingeringTrackIds, setFingeringTrackIds] = useState<string[]>([]);
 
   // UI state
   const [isLoaderOpen, setIsLoaderOpen] = useState<boolean>(false);
@@ -73,6 +75,8 @@ export const App: React.FC = () => {
 
   const handleSelectScore = (data: string | ArrayBuffer, title: string) => {
     globalPlaybackController.stop();
+    setFingeringTrackIds([]);
+    setFingeringEligible([]);
     setScoreTitle(title);
     setCurrentScoreData(data);
   };
@@ -80,7 +84,7 @@ export const App: React.FC = () => {
   return (
     <div className="flex flex-col h-screen w-screen bg-slate-100 text-slate-900 overflow-hidden font-sans">
       {/* Top Navigation Bar */}
-      <header className="h-14 bg-white border-b border-slate-300 px-4 flex items-center justify-between z-20 shrink-0 shadow-xs">
+      <header className="print:hidden h-14 bg-white border-b border-slate-300 px-4 flex items-center justify-between z-20 shrink-0 shadow-xs">
         <div className="flex items-center gap-3 min-w-0">
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white shadow-md shadow-blue-500/20">
@@ -143,19 +147,28 @@ export const App: React.FC = () => {
       </header>
 
       {/* Main Area: Score Viewer + Side Panel */}
-      <div className="flex-1 flex overflow-hidden relative">
+      <div className="flex-1 flex overflow-hidden relative print:overflow-visible">
         {/* Score Display (with tap to seek) */}
         <ScoreViewer
           scoreData={currentScoreData}
           onScoreLoaded={handleScoreLoaded}
           onError={(msg) => console.error(msg)}
+          fingeringTrackIds={fingeringTrackIds}
+          onFingeringEligible={setFingeringEligible}
         />
 
         {/* Tracks / Voices Sidebar */}
         {isSidebarOpen && (
-          <div className="absolute right-0 top-0 bottom-0 sm:relative w-full sm:w-auto h-full z-20">
+          <div className="print:hidden absolute right-0 top-0 bottom-0 sm:relative w-full sm:w-auto h-full z-20">
             <TrackList
               tracks={tracks}
+              fingeringEligible={fingeringEligible}
+              fingeringTrackIds={fingeringTrackIds}
+              onToggleFingering={(id) =>
+                setFingeringTrackIds((prev) =>
+                  prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
+                )
+              }
               isOpen={isSidebarOpen}
               onClose={() => setIsSidebarOpen(false)}
             />

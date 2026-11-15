@@ -50,3 +50,24 @@
 .animate-fadeIn {
   animation: fadeIn 0.15s ease-out forwards;
 }
+
+/* Print / PDF export: show the full score incl. fingerings (part of the SVG).
+   All layout wrappers use h-screen / overflow-hidden, which would clip the print to one page. */
+@page { margin: 10mm; }
+@media print {
+  html, body, #root, #root div {
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    overflow: visible !important;
+    box-shadow: none !important;
+  }
+  .score-page-container { border: none !important; padding: 0 !important; max-width: none !important; border-radius: 0 !important; }
+  .scrollable-score-viewport { padding: 0 !important; display: block !important; }
+  .score-page-container svg { max-width: 100% !important; }
+  /* one OSMD page = one printed page; never split a page */
+  [id^='osmdCanvasPage'] { break-inside: avoid; page-break-inside: avoid; }
+  [id^='osmdCanvasPage']:not(:last-of-type) { break-after: page; page-break-after: always; }
+  /* hide the playback cursor */
+  #cursorImg-0, [id^='cursorImg'] { display: none !important; }
+}
