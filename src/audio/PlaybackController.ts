@@ -687,7 +687,8 @@ export class PlaybackController {
     if (this.state === 'playing' || this.state === 'counting_in') return;
     if (this.steps.length === 0) return;
 
-    await globalSynth.init();
+    const activeSounds = Array.from(new Set(this.tracks.map(t => t.soundType)));
+    await globalSynth.init(activeSounds.length > 0 ? activeSounds : ['strings', 'piano']);
 
     // If Loop is enabled: ensure we start within the loop range
     if (this.loopEnabled) {
@@ -1223,6 +1224,7 @@ export class PlaybackController {
     const track = this.tracks.find(t => t.id === trackId);
     if (!track) return;
     track.soundType = soundType;
+    void globalSynth.ensureSoundLoaded(soundType);
     this.notifyTracks();
   }
 

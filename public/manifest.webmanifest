@@ -2,14 +2,15 @@
   "name": "PartiturPlayer – MusicXML Übungshilfe",
   "short_name": "PartiturPlayer",
   "description": "MusicXML Partituren einlesen und einzelne Stimmen üben",
-  "start_url": "/",
+  "start_url": "./",
+  "scope": "./",
   "display": "standalone",
   "orientation": "any",
   "background_color": "#0f172a",
   "theme_color": "#2563eb",
   "icons": [
     {
-      "src": "/icon.svg",
+      "src": "icon.svg",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any maskable"
